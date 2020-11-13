@@ -37,14 +37,14 @@ public class HomeController {
 		log.debug("Request Parameter : " + map);
 		
 		ModelAndView mv = new ModelAndView("/home");
-		
+				
 		List<Map<String, Object>> list = commonService.getList(null);
 		mv.addObject("list", list);
 		return mv;
 	}
 
 	@RequestMapping(value = "/sample/openSample.do", method = RequestMethod.GET)
-	public ModelAndView test(Map<String, Object> map) {
+	public ModelAndView test(@RequestParam Map<String, Object> map) {
 		log.debug("map : " + map);
 
 		ModelAndView mv = new ModelAndView("");
@@ -54,7 +54,7 @@ public class HomeController {
 	@RequestMapping(value = "/sample/testMapArgumentResolver.do")
 	public ModelAndView testMapArgumentResolver(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("");
-		if (commandMap.isEmpty() == false) {
+		if (!commandMap.isEmpty()) {
 			Iterator<Entry<String, Object>> iterator = commandMap.getMap().entrySet().iterator();
 			Entry<String, Object> entry = null;
 			while (iterator.hasNext()) {

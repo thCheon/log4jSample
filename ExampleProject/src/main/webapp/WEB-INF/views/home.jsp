@@ -1,4 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
 <html>
 	<head>
@@ -20,9 +19,10 @@
 					<td>${emt.name }</td>	
 			</c:forEach>
 		</table>
-		<button type="button" onclick="location.href='/sample/openSample.do'">aaaaa</button>
+		<button type="button" onclick="location.href='sample/openSample.do'">aaaaa</button>
 	</body>
 	<script>
 		var a = '${list}';
+		console.log(a);
 	</script>
 </html>

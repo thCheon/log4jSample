@@ -9,9 +9,12 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
 
 @Component
+@SuppressWarnings("unchecked")
 public class CommonUtils {
 	private static final Logger log = Logger.getLogger(CommonUtils.class);
 	
@@ -120,4 +123,45 @@ public class CommonUtils {
 		}
 		log.debug("------------------------------------------------\n");
 	}
+
+	public String functionTransition(String s) {
+		try {
+			// Create MD5 Hash
+			MessageDigest digest = MessageDigest.getInstance("SHA-1");
+			digest.update(s.getBytes());
+			byte messageDigest[] = digest.digest();
+
+			// Create Hex String
+			StringBuffer hexString = new StringBuffer();
+			for (int i = 0; i < messageDigest.length; i++)
+				hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+			return hexString.toString();
+
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/* list<map> to json */
+	public static JSONArray convertListToJson(List<Map<String, Object>> bankCdList) {
+		JSONArray jsonArray = new JSONArray();
+		for (Map<String, Object> map : bankCdList) {
+			jsonArray.add(convertMapToJson(map));
+		}
+		return jsonArray;
+	}
+
+	/* map to json */
+	public static JSONObject convertMapToJson(Map<String, Object> map) {
+		JSONObject json = new JSONObject();
+		for (Map.Entry<String, Object> entry : map.entrySet()) {
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			// json.addProperty(key, value);
+			json.put(key, value);
+		}
+		return json;
+	}
+
 }
